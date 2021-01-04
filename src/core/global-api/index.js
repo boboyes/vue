@@ -29,11 +29,13 @@ export function initGlobalAPI (Vue: GlobalAPI) {
       )
     }
   }
+  //初始化Vue.config 对象
   Object.defineProperty(Vue, 'config', configDef)
 
   // exposed util methods.
   // NOTE: these are not considered part of the public API - avoid relying on
   // them unless you are aware of the risk.
+  // 这些工具方法不视作全局API的一部分，除非你已经意识到某些风险，否则不要去依赖他们
   Vue.util = {
     warn,
     extend,
@@ -41,16 +43,18 @@ export function initGlobalAPI (Vue: GlobalAPI) {
     defineReactive
   }
 
+  //一些静态方法
   Vue.set = set
   Vue.delete = del
   Vue.nextTick = nextTick
 
   // 2.6 explicit observable API
+  //让一个对象可相应
   Vue.observable = <T>(obj: T): T => {
     observe(obj)
     return obj
   }
-
+  
   Vue.options = Object.create(null)
   ASSET_TYPES.forEach(type => {
     Vue.options[type + 's'] = Object.create(null)

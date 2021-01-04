@@ -9,6 +9,7 @@ const version = process.env.VERSION || require('../package.json').version
 const weexVersion = process.env.WEEX_VERSION || require('../packages/weex-vue-framework/package.json').version
 const featureFlags = require('./feature-flags')
 
+//文件头注释
 const banner =
   '/*!\n' +
   ` * Vue.js v${version}\n` +
@@ -27,8 +28,10 @@ const weexFactoryPlugin = {
 
 const aliases = require('./alias')
 const resolve = p => {
+  //entry: resolve('web/entry-runtime-with-compiler.js'),
+  //取出web
   const base = p.split('/')[0]
-  if (aliases[base]) {
+  if (aliases[base]) {   //加载aliases文件中的值
     return path.resolve(aliases[base], p.slice(base.length + 1))
   } else {
     return path.resolve(__dirname, '../', p)
@@ -126,7 +129,7 @@ const builds = {
     format: 'umd',
     env: 'development',
     alias: { he: './entity-decoder' },
-    banner
+    banner   //文件头注释
   },
   // Runtime+compiler production build  (Browser)
   'web-full-prod': {
@@ -262,6 +265,10 @@ function genConfig (name) {
 
   return config
 }
+
+
+// 判断是否存在环境变量 TARGET
+// 存在则使用genConfig生成rollup配置文件
 
 if (process.env.TARGET) {
   module.exports = genConfig(process.env.TARGET)
